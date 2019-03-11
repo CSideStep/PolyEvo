@@ -50,10 +50,11 @@ class World:
             children.append(self.create_child(eval_pairs[ip1][0], eval_pairs[ip2][0], eval_pairs[ip1][1], eval_pairs[ip2][1]))
         self.population=children+new_pop   
         self.best_poly=eval_pairs[0]
-        print(f"{sum(errors)/self.population_size} avg error")
     def evol(self, n):
-        for i in range(100):
-            self.next_gen()
-            print(f"{self.best_poly[1]}, ({100*i/n}%)")
+        with open("log.csv", "w+") as f:
+            for i in range(n):
+                self.next_gen()
+                if i  % 10 == 0: print(f"{self.best_poly[1]}, ({100*i/n}%)")
+                f.write(f"{i},{self.best_poly[1]}\n")
         return self.best_poly[0].coefficients
                       
